@@ -1,0 +1,8 @@
+let mySet = new Set()
+mySet.add(1)
+mySet.add(2)
+mySet.add('3')
+let iterator = mySet.values()
+console.log(iterator.next().value)
+console.log(typeof iterator.next().value)
+// mySet.forEach((i) => console.log(i))

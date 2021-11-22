@@ -1,0 +1,84 @@
+<!-- closure is preservied data -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="input" />
+    <script>
+      // function debounce(cb, delay) {
+      //   let timer
+      //   return function (arg) {
+      //     clearTimeout(timer)
+      //     timer = setTimeout(() => {
+      //       cb(arg)
+      //     }, delay)
+      //   }
+      // }
+      // function clg(value) {
+      //   console.log(value)
+      // }
+      // var debounceFn = debounce(clg, 1000)
+      // inputref.addEventListener('keyup', function (e) {
+      //   debounceFn(e.target.value)
+      // })
+
+      function debounceClosure(cb, delay) {
+        let timer
+        return function (args) {
+          if (timer) clearTimeout(timer)
+          timer = setTimeout(() => {
+            cb(args)
+          }, delay)
+        }
+      }
+      let inputref = document.getElementById('input')
+      const cb = (args) => {
+        console.log(args)
+      }
+      let debounceFn = debounceClosure(cb, 1000)
+      // console.log(typeof debounceFn)
+      const addTo = (passed) => {
+        const add = (inner) => {
+          return passed + inner
+        }
+
+        return add
+      }
+      const rr = addTo(33)
+      console.log(rr(22))
+
+      inputref.addEventListener('keyup', function (e) {
+        debounceFn(e.target.value)
+      })
+
+      function debounce(fn, delay = 500) {
+        // timer 是在闭包中的
+        let timer = null
+
+        return function () {
+          if (timer) {
+            clearTimeout(timer)
+          }
+          timer = setTimeout(() => {
+            fn.apply(this, arguments)
+            timer = null
+          }, delay)
+        }
+      }
+
+      // test debounce 返回一个函数
+      input1 = document.getElementById('input1')
+      input1.addEventListener(
+        'keyup',
+        debounce(function () {
+          console.log(input1.value)
+        }, 600)
+      )
+    </script>
+  </body>
+</html>
